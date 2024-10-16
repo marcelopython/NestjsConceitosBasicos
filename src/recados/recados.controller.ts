@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post } from '@nestjs/common';
 
 @Controller('recados')
 export class RecadosController {
@@ -31,6 +31,11 @@ export class RecadosController {
         console.log(id, body)
         return 'atualiza o recado'
 
+    }
+
+    @Delete(':id')
+    remove(@Param('id') id: string) {
+        return `deleta um recado ID ${id}`
     }
 
 }
