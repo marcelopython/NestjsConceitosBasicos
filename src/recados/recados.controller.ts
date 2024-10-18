@@ -8,20 +8,21 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { RecadosService } from './recados.service';
 
 @Controller('recados')
 export class RecadosController {
+  constructor(private readonly recadosService: RecadosService) {}
+
   @Get()
-  findAll(@Query() params: any) {
-    console.log(params);
-    return 'retornar todos os recados';
+  findAll() {
+    return this.recadosService.findAll();
   }
 
   //@Get('fixo/:dinamico/:id')
   @Get(':id')
   findOne(@Param('id') id: string) {
-    console.log(id);
-    return `retorna um recado ID ${id}`;
+    return this.recadosService.findOne(id);
   }
 
   // Pode ser adicionado o codigo de retorno, por padrão o post vai retornar o 201
@@ -30,17 +31,16 @@ export class RecadosController {
   @Post()
   create(@Body() body: any) {
     console.log(body);
-    return `Essa rota cria um recado`;
+    return this.recadosService.create(body);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() body: any) {
-    console.log(id, body);
-    return 'atualiza o recado';
+    return this.recadosService.update(body, id);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return `deleta um recado ID ${id}`;
+    return this.recadosService.remove(id);
   }
 }
