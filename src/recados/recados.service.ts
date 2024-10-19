@@ -41,8 +41,9 @@ export class RecadosService {
     this.recados.push(newRecado);
   }
 
-  update(body: UpdateRecadoDto, id: string) {
-    const recadoIndex = this.recados.findIndex((item) => item.id === +id);
+  update(body: UpdateRecadoDto, id: number) {
+    console.log(id)
+    const recadoIndex = this.recados.findIndex((item) => item.id === id);
 
     if (recadoIndex < 0) {
       throw new HttpException('Nost found', HttpStatus.NOT_FOUND);
@@ -55,8 +56,8 @@ export class RecadosService {
     return this.recados;
   }
 
-  remove(id: string) {
-    const index = this.recados.findIndex((item) => item.id === +id);
+  remove(id: number) {
+    const index = this.recados.findIndex((item) => item.id === id);
     if (index < 0) {
       throw new HttpException('Nost found', HttpStatus.NOT_FOUND);
     }

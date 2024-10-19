@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Query,
@@ -37,12 +38,12 @@ export class RecadosController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() body: UpdateRecadoDto) {
+  update(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateRecadoDto) {
     return this.recadosService.update(body, id);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id', ParseIntPipe) id: number) {
     return this.recadosService.remove(id);
   }
 }
