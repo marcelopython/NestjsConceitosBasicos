@@ -51,18 +51,16 @@ export class RecadosService {
     return this.recadoRepository.save(recado);
   }
 
-  update(body: UpdateRecadoDto, id: number) {
-    const recadoIndex = this.recados.findIndex((item) => item.id === id);
-
-    if (recadoIndex < 0) {
+  async update(body: UpdateRecadoDto, id: number) {
+    const recado = await this.recadoRepository.preload({
+      id,
+      ...body,
+    });
+    if (!recado) {
       throw new HttpException('Nost found', HttpStatus.NOT_FOUND);
     }
-    const actualBody = this.recados[recadoIndex];
-    this.recados[recadoIndex] = {
-      ...actualBody,
-      ...body,
-    };
-    return this.recados;
+    await this.recadoRepository.save(recado);
+    return recado;
   }
 
   async remove(id: number) {
