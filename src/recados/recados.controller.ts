@@ -24,7 +24,7 @@ export class RecadosController {
 
   //@Get('fixo/:dinamico/:id')
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseIntPipe) id: number) {
     return this.recadosService.findOne(id);
   }
 
