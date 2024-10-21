@@ -12,18 +12,6 @@ export class RecadosService {
     private readonly recadoRepository: Repository<Recado>,
   ) {}
 
-  private lasId = 1;
-  private recados: Recado[] = [
-    {
-      id: 1,
-      texto: 'Este é um recado de teste',
-      de: 'Joana',
-      para: 'João',
-      lido: false,
-      data: new Date(),
-    },
-  ];
-
   async findAll() {
     const recados = await this.recadoRepository.find();
     return recados;
@@ -52,9 +40,14 @@ export class RecadosService {
   }
 
   async update(body: UpdateRecadoDto, id: number) {
+    const partialUpdateRecadoDTO = {
+      lido: body?.lido,
+      texto: body?.texto,
+    };
+
     const recado = await this.recadoRepository.preload({
       id,
-      ...body,
+      ...partialUpdateRecadoDTO,
     });
     if (!recado) {
       throw new HttpException('Nost found', HttpStatus.NOT_FOUND);
