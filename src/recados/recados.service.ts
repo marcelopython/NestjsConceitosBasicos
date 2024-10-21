@@ -4,12 +4,14 @@ import { CreateRecadoDto } from './dto/create-recado.dto';
 import { UpdateRecadoDto } from './dto/update-recado.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { PessoasService } from 'src/pessoas/pessoas.service';
 
 @Injectable()
 export class RecadosService {
   constructor(
     @InjectRepository(Recado)
     private readonly recadoRepository: Repository<Recado>,
+    private readonly pessoasService: PessoasService,
   ) {}
 
   async findAll() {
@@ -30,11 +32,21 @@ export class RecadosService {
   }
 
   async create(body: CreateRecadoDto) {
+    const { deId, paraId } = body;
+
+    const de = await this.pessoasService.findOne(deId);
+    const para = await this.pessoasService.findOne(paraId);
+    // console.log(de, para);
     const newRecado = {
-      ...body,
+      texto: body.texto,
+      de: de[0],
+      para: para[0],
       lido: false,
       data: new Date(),
     };
+
+    console.log('novo recado ==> ', newRecado);
+
     const recado = await this.recadoRepository.create(newRecado);
     return this.recadoRepository.save(recado);
   }

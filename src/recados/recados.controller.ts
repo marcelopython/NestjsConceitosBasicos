@@ -33,7 +33,6 @@ export class RecadosController {
   //@HttpCode(HttpStatus.OK)
   @Post()
   create(@Body() body: CreateRecadoDto) {
-    console.log(body);
     return this.recadosService.create(body);
   }
 
